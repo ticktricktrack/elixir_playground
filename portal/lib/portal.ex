@@ -30,11 +30,20 @@ defmodule Portal do
   end
 
   def push_right(portal) do
-    case Portal.Door.pop(portal.left) do
-      :error   -> :ok
-      {:ok, h} -> Portal.Door.push(portal.right, h)
-    end
+    push(portal.left, portal.right)
     portal
+  end
+
+  def push_left(portal) do
+    push(portal.right, portal.left)
+    portal
+  end
+
+  def push(source, destination) do
+    case Portal.Door.pop(source) do
+      :error   -> :ok
+      {:ok, h} -> Portal.Door.push(destination, h)
+    end
   end
 
   def shoot(color) do
